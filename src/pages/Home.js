@@ -13,43 +13,48 @@ export default function Home(){
         getRequest("test/hello",(responseData)=>{
             console.log(responseData);
         });
-    },[userName]);
+    },[]);
+
+    const handleButtonClick = async()=>{
+        getRequest("test/createUser?Username="+userName+"&Password="+password,(response)=>{
+            if(response.status===200){
+                console.log(response.message);
+            }
+            else{
+                console.log(response.message);
+            }
+        });
+    }
 
     return(
-        <div>
-            <TextField 
-                label="Takip Numarası" 
-                sx={{mb:2,width:'25%'}}
+        <div style={{ justifyContent: "center", alignItems: 'center', display: "flex", flexDirection: "column", height: "100vh" }}>
+            <div>
+            <TextField
+                label="Username"
+                sx={{ mb: 2, width: '100%' }}
                 value={userName}
-                onChange={(event)=>{setUsername(event.target.value)}}
-         > </TextField>
-
-            <Button 
-                variant="contained"
-                onClick={()=>{
-                    console.log(userName)
-                }}
-            >
-                BAS
-            </Button>
-            
-            <TextField 
-                label="emreguvcendiden" 
-                sx={{mb:2,width:'25%'}}
+                onChange={(event) => { setUsername(event.target.value) }}
+            />
+            </div>
+            <div>
+            <TextField
+                label="Password"
+                sx={{ mb: 2, width: '100%' }}
                 value={password}
-                onChange={(event)=>{setPassword(event.target.value)}}
-         > </TextField>
-
-            <Button 
+                onChange={(event) => { setPassword(event.target.value) }}
+                type="password"
+            />
+            </div>
+            <div>
+            <Button
                 variant="contained"
-                onClick={()=>{
-                    console.log(password)
-                }}
+                onClick={handleButtonClick}
             >
-                BASma
+               Kaydol
             </Button>
-                
-        </div>
+            </div>
+</div>
+
         
 
     );
