@@ -10,14 +10,12 @@ export const getRequest = async (path, callback) => {
      })
        .then(response => response.json())
        .then(responseData => {
-         console.log(responseData);
+         //console.log(responseData);
          callback(responseData);
          //return(responseData.message);
  
    
        }) .catch(err => {
-         
-         
        })
  
        

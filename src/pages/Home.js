@@ -50,7 +50,7 @@ export default function Home(){
                 variant="contained"
                 onClick={handleButtonClick}
             >
-               Kaydol
+               Sign Up
             </Button>
             </div>
 </div>
