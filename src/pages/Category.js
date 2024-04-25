@@ -1,28 +1,29 @@
 import { Button, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { getRequest } from "../services/apiService";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Category(){
     
     const [categoryName,setCategoryName] = useState();
-
-    useEffect(()=>{
-        getRequest("category",(responseData)=>{
-            console.log(responseData)
-        })
-    },[])
+    const notify = (mes) => toast.success(mes);
+    const reject = (mes) => toast.error(mes);
 
 
     const handleButtonClick = async()=>{
         getRequest("category/createCategory?Name="+categoryName,(responseData)=>{
+           
             if(responseData.status === 200){
-                console.log(responseData.message)
+                console.log("test");
+                notify(responseData.message);
             }
             else{
-                console.log(responseData.message)
+                reject(responseData.message);
             }
         })
     }
+    
 
     return(
 
@@ -41,8 +42,10 @@ export default function Category(){
                
                Add Category
                 </Button>
+                
             
             </div>
+            <ToastContainer/>
         </div>
 
     )
