@@ -1,12 +1,12 @@
 import { SERVER_URL } from "./parameters";
 
-export const getRequest = async (path, callback) => {
+export const getRequest = async (path,token, callback) => {
   
 
     console.log(path);
  
      fetch(SERVER_URL + path, {
-       //headers: { Authorization: token }
+       headers: { Authorization: token }
      })
        .then(response => response.json())
        .then(responseData => {
