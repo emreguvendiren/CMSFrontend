@@ -24,7 +24,7 @@ export const UserProvider = ({ children }) => {
             else if(responseData.status===200){
             setCookies('token', responseData.result); // your token        
             setCookies('name', username); // optional data        
-            navigate('/home');
+            navigate('/anasayfa');
             
             }
         })

@@ -1,20 +1,50 @@
 import React, { useEffect } from "react";
 import { useAuth } from "../../hooks/auth";
 import { getRequest } from "../../services/apiService";
-import { Button } from "@mui/material";
+import { Box, Button, Container } from "@mui/material";
 
 export default function Home(){
 
     const {cookies} = useAuth();
-    const {logout} = useAuth();
-    useEffect(()=>{
-        getRequest("home/getAllUser",cookies.token);
-    },[]);
+    const {logout} = useAuth(); 
+
+
+    const defaultArray = [
+        {
+            name:"emre",
+            surName :"guvendiren",
+            id:1
+        },
+        {
+            name:"fuku",
+            surName :"fuku",
+            id:2
+        },
+        {
+            name:"deneme1",
+            surName :"deneme1",
+            id:3
+        },
+        {
+            name:"deneme2",
+            surName :"deneme2",
+            id:4
+        },
+    ]
+
+
+    const defaultObject = {
+        name:"emre",
+        surName :"guvendiren",
+        id:1
+    }
+
+
+    
+    
     return(
-        <div>
-            <Button onClick={logout}>
-                Cookie Sil
-            </Button>
-        </div>
+        <Box>
+            Merhaba,Hoş geldin {cookies.name}
+        </Box>
     )
 }

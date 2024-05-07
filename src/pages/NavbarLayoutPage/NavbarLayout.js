@@ -19,6 +19,9 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useNavigate } from 'react-router-dom';
+import navConfig from './NavConfig';
+import { Button, MenuItem, Popover } from '@mui/material';
+import { useAuth } from '../../hooks/auth';
 
 
 const drawerWidth = 240;
@@ -95,6 +98,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function NavbarLayout({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const {cookies} = useAuth();
+  const {logout} = useAuth();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -111,6 +116,7 @@ export default function NavbarLayout({children}) {
     
     //console.log(`${pageURL}`);
   };
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -132,6 +138,12 @@ export default function NavbarLayout({children}) {
           <Typography variant="h6" noWrap component="div">
             Coffee Management System
           </Typography>
+          <div style={{marginLeft:10}}>
+            <Button title='Çıkış Yap' variant='contained' onClick={logout}>
+              Çıkış Yap
+            </Button>
+          </div>
+
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -143,10 +155,10 @@ export default function NavbarLayout({children}) {
         <Divider />
         <List>
             
-          {['User', 'Home', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+          {navConfig.map((item) => (
+            <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
-                onClick={() => handleMenuItemClick(`/${text.toLowerCase().replace(/\s+/g, '')}`)}
+                onClick={() => handleMenuItemClick(item.path)}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
@@ -160,9 +172,9 @@ export default function NavbarLayout({children}) {
                     justifyContent: 'center',
                   }}
                 >
-                  {index % 2 === 1 ? <InboxIcon /> : <MailIcon />}
+                  {item.index % 2 === 1 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
           ))}
@@ -195,7 +207,7 @@ export default function NavbarLayout({children}) {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader/>
-          {children}
+          {/* {children} */}
       </Box>
     </Box>
   );
