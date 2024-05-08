@@ -4,7 +4,7 @@ export const getRequest = async (path,token, callback) => {
   
 
     console.log(path);
- 
+    console.log(token);
      fetch(SERVER_URL + path, {
        headers: { Authorization: token }
      })

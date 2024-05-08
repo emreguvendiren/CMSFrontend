@@ -1,33 +1,64 @@
 import { Box, Button, TextField,GridColDef } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/auth";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { getRequest } from "../../../services/apiService";
+import { SERVER_URL } from "../../../services/parameters";
+import { toast } from "react-toastify";
+
+
 
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70,  sortable: false, },
-    { field: 'name', headerName: 'Masa Adı', width: 200  , sortable: false,},
-    
+    { field: 'tableName', headerName: 'Masa Adı', width: 200  , sortable: false,},
+    { field: 'createDate', headerName: 'Olusturulma Tarihi', width: 200  , sortable: false,},
+
   
   ];
 export default function AddTable(){
-    const defaultData = [
-        {
-            id:1,
-            name:"A1"
-        },
-        {
-            id:2,
-            name:"A2"
-        },
-        {
-            id:3,
-            name:"A3"
-        }
-    ]
     const {cookies} = useAuth();
     const [tableName,setTableName] = useState("");
+    const [tableData, setTableData] = useState([]); 
+
+    useEffect(() => {
+        getRequest("table/getAllTable","Bearer " + cookies.token,(responseData)=>{
+            if(responseData.status===200){
+                console.log(responseData.message)
+                console.log(responseData.result)
+
+                setTableData(responseData.result);
+            }
+            else{
+                console.log(responseData.message)
+            }
+        });
+    }, [cookies.token]);
+
+
+
+    const notify = (mes) => toast.success(mes);
+    const rejectNotify = (mes) => toast.error(mes);
+
+    const handleButtonAddTable = async()=>{
+        getRequest("table/createTable?Name="+tableName,"Bearer " + cookies.token,(responseData)=>{
+            if(responseData.status === 200){
+                notify(responseData.message);
+                getRequest("table/getAllTable", "Bearer " + cookies.token, (responseData) => {
+                    if (responseData.status === 200) {
+                        setTableData(responseData.result);
+                    } else {
+                        rejectNotify(responseData.message);
+                    }
+                });
+            }
+            else{
+                rejectNotify(responseData.message)
+            }
+        })   
+     }
+
     return(
         <div>
             <div style={{alignItems:"center",justifyContent:'center',flexDirection:'column',display:"flex"}}>
@@ -39,14 +70,19 @@ export default function AddTable(){
                 />
                 </div>
                 <div style={{marginTop:30}}>
-                    <Button variant="contained" style={{width:100}}>
+                    <Button variant="contained" style={{width:100}} onClick={handleButtonAddTable}>
                         Ekle
                     </Button>
                 </div>
+
+
+
+
+
                 <div style={{marginTop:30}}>
                 <DataGrid
                     sx={{mt : 3,width : '100%'}}
-                    rows={defaultData}
+                    rows={tableData}
                     columns={columns}
                     initialState={{
                     pagination: {
