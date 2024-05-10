@@ -4,9 +4,9 @@ export const getRequest = async (path,token, callback) => {
   
 
     console.log(path);
-    console.log(token);
+  // console.log(token)
      fetch(SERVER_URL + path, {
-       headers: { Authorization: token }
+       headers: { Authorization: "Bearer "+token }
      })
        .then(response => response.json())
        .then(responseData => {
@@ -25,7 +25,7 @@ export const getRequest = async (path,token, callback) => {
 
   fetch(SERVER_URL + path, {
 
-    headers: {  "content-type": "application/json", Authorization: token },
+    headers: {  "content-type": "application/json", Authorization:"Bearer " +token },
      method:'POST',
     body:JSON.stringify(data)
   }).then(response => response.json())

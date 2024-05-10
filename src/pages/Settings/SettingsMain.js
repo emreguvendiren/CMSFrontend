@@ -28,7 +28,7 @@ export default function SettingsMain(){
             </Box>
             <Box sx={{marginLeft:3}}>
                 <Button variant="contained"
-                    onClick={()=>{handleNavigate("masaEkleme")}}
+                    onClick={()=>{handleNavigate("ayarlar/kullaniciEkleme")}}
                 >
                     Kullanıcı Ekleme Ekranı
                 </Button>

@@ -5,7 +5,7 @@ import { useAuth } from "../../../hooks/auth";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { getRequest } from "../../../services/apiService";
 import { SERVER_URL } from "../../../services/parameters";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 
 
@@ -23,7 +23,7 @@ export default function AddTable(){
     const [tableData, setTableData] = useState([]); 
 
     useEffect(() => {
-        getRequest("table/getAllTable","Bearer " + cookies.token,(responseData)=>{
+        getRequest("table/getAllTable", cookies.token,(responseData)=>{
             if(responseData.status===200){
                 console.log(responseData.message)
                 console.log(responseData.result)
@@ -42,12 +42,13 @@ export default function AddTable(){
     const rejectNotify = (mes) => toast.error(mes);
 
     const handleButtonAddTable = async()=>{
-        getRequest("table/createTable?Name="+tableName,"Bearer " + cookies.token,(responseData)=>{
+        getRequest("table/createTable?Name="+tableName, cookies.token,(responseData)=>{
             if(responseData.status === 200){
                 notify(responseData.message);
-                getRequest("table/getAllTable", "Bearer " + cookies.token, (responseData) => {
+                getRequest("table/getAllTable", cookies.token, (responseData) => {
                     if (responseData.status === 200) {
                         setTableData(responseData.result);
+                        
                     } else {
                         rejectNotify(responseData.message);
                     }
@@ -100,6 +101,7 @@ export default function AddTable(){
                     }}
                 />
                 </div>
+                <ToastContainer/>
             </div>
         </div>
     );
