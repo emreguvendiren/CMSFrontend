@@ -94,13 +94,41 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
   }),
 );
+const UserPermission = [
+  {
+    text:"Ayarlar"
+  },
+  {
+    text:"Drafts"
+  },
+  {
+    text:"Masalar"
+  }
+]
 
 export default function NavbarLayout({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const {cookies} = useAuth();
   const {logout} = useAuth();
+  const [nav,setNav] = React.useState([]);
 
+
+  React.useEffect(()=>{
+    let newNav = [];
+    if(cookies.role==="ADMIN"){
+      newNav = navConfig;
+    }
+    else if(cookies.role==="USER"){
+      navConfig.map(item=> {
+        if(UserPermission.filter(item2=> item2.text===item.text).length===0){
+          newNav.push(item);
+        }
+      });
+    }
+    console.log(newNav);
+    setNav(newNav);
+  });
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -155,9 +183,9 @@ export default function NavbarLayout({children}) {
         <Divider />
         <List>
             
-          {navConfig.map((item) => (
+          {nav.map((item) => (
             <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
+            <ListItemButton
                 onClick={() => handleMenuItemClick(item.path)}
                 sx={{
                   minHeight: 48,
@@ -176,7 +204,9 @@ export default function NavbarLayout({children}) {
                 </ListItemIcon>
                 <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
-            </ListItem>
+          </ListItem>
+          
+
           ))}
         </List>
         <Divider />

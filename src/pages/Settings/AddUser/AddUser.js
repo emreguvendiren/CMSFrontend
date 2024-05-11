@@ -28,15 +28,31 @@ export default function AddUser(){
     const [users,setUsers]= useState([]);
     const [role,setRole] = useState(null);
 
+    const [selectedUser, setSelectedUser]  = useState(null);
+
     const notify = (mes) => toast.success(mes);
     const rejectNotify = (mes) => toast.error(mes);
 
     useEffect(()=>{
         getRequest("user/getAllUsers",cookies.token,(responseData)=>{
-           
+            
             setUsers(responseData);
         })
     },[]);
+
+    const handleRowClick = async (user) =>{
+        console.log(user)
+        console.log(options.filter(x=>x.value===user.role)[0])
+        setSelectedUser(user);
+        setUserName(user.username);
+        //setPassword(user.password);
+        //setPasswordRepeat(user.passwordRepeat);
+        setRole(options.filter(x=>x.value===user.role)[0])
+
+    }
+
+
+
     const handleButtonAddUser = async() =>{
      if(userName ==="" || password==="" || passwordRepeat ===""||role ===null){
         rejectNotify("Please fill fields");
@@ -67,6 +83,39 @@ export default function AddUser(){
         }
      }   
     }
+
+    const handleButtonUpdateUser = async ()=>{
+        if(userName ==="" || role ===null){
+            rejectNotify("Please fill fields");
+         }
+         else{
+            if(password != passwordRepeat){
+                rejectNotify("Passwords are not matching.");
+            }
+            else{
+                const user = {
+                    username:userName,
+                    password : password,
+                    role : role.value
+                }
+               
+                postRequestWCallback("user/UpdateUser",cookies.token,user,(responseData)=>{
+                    if(responseData.status===200){
+                        notify(responseData.message);
+                        setSelectedUser(null);
+
+                        getRequest("user/getAllUsers",cookies.token,(responseData)=>{
+               
+                            setUsers(responseData);
+                        })
+                    }
+                    else{
+                        rejectNotify(responseData.message);
+                    }
+                })
+            }
+         }
+    }
     return(
     <div style={{width:'100%'}}>
             <div style={{alignItems:"center",justifyContent:'center',flexDirection:'column',display:"flex"}}>
@@ -76,6 +125,7 @@ export default function AddUser(){
                         label="Kullanıcı Adı"
                         value={userName}
                         onChange={(event)=>{setUserName(event.target.value)}}
+                        disabled= {selectedUser == null?false:true}
                     />
                 </div>
                 <div style={{marginTop:10}}>
@@ -84,6 +134,7 @@ export default function AddUser(){
                         error={password!=passwordRepeat?true:false}
                         value={password}
                         onChange={(event)=>{setPassword(event.target.value)}}
+                        type="password"
                     />
                 </div>
                 <div style={{marginTop:10}}>
@@ -92,6 +143,7 @@ export default function AddUser(){
                         label="Şifre Tekrar"
                         value={passwordRepeat}
                         onChange={(event)=>{setPasswordRepeat(event.target.value)}}
+                        type="password"
                     />
                 </div>
                 <div style={{marginTop:10}}>
@@ -100,39 +152,56 @@ export default function AddUser(){
                         options ={options}
                         placeholder="Rol Seçiniz"
                         onChange={(e)=>{setRole(e)}}
+                        value={role}
+                        
                     />
                 </div>
                 </div>
-                <div style={{marginTop:30}}>
+                {
+                    selectedUser === null &&
+                    <div style={{marginTop:30}}>
                     <Button variant="contained" style={{width:100}} onClick={handleButtonAddUser}>
                         Ekle
                     </Button>
                 </div>
+                }
+
+                {selectedUser!= null&&
+                    <div style={{marginTop:30}}>
+                    <Button variant="contained" style={{width:100}} onClick={handleButtonUpdateUser}>
+                        Guncelle
+                    </Button>
+                </div>
+                }
 
 
 
 
 
                 <div style={{marginTop:30}}>
+                   {
+                    selectedUser === null && 
                     <DataGrid
-                        sx={{mt : 3,width : '100%'}}
-                        rows={users}
-                        columns={columns}
-                        initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 5 },
-                        },
-                        }}
-                        pageSizeOptions={[5, 15]}
-                        //onRowClick= {handleRowClick}
-                        slots={{ toolbar: GridToolbar }}
-                        slotProps={{
-                            toolbar:{
-                            printOptions: { disableToolbarButton: true },
-                            csvOptions: { disableToolbarButton: true },
-                            }
-                        }}
-                    />
+                    sx={{mt : 3,width : '100%'}}
+                    rows={users}
+                    columns={columns}
+                    initialState={{
+                    pagination: {
+                        paginationModel: { page: 0, pageSize: 5 },
+                    },
+                    }}
+                    pageSizeOptions={[5, 15]}
+                    onRowClick= {(e)=>{handleRowClick(e.row)}}
+                    
+                    slots={{ toolbar: GridToolbar }}
+                    slotProps={{
+                        toolbar:{
+                        printOptions: { disableToolbarButton: true },
+                        csvOptions: { disableToolbarButton: true },
+                        }
+                    }}
+                />
+                   }
                 </div>
                 <ToastContainer/>
             </div>

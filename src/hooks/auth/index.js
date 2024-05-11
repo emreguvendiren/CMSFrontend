@@ -22,7 +22,9 @@ export const UserProvider = ({ children }) => {
                 navigate('/nopermission');
             }
             else if(responseData.status===200){
-            setCookies('token', responseData.result); // your token        
+            
+            setCookies('token', responseData.result); // your token
+            setCookies('role', responseData.alternativeResult);        
             setCookies('name', username); // optional data        
             navigate('/anasayfa');
             
