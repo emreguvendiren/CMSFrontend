@@ -20,8 +20,9 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useNavigate } from 'react-router-dom';
 import navConfig from './NavConfig';
-import { Button, MenuItem, Popover } from '@mui/material';
+import { Button, MenuItem, Popover, useIsFocusVisible } from '@mui/material';
 import { useAuth } from '../../hooks/auth';
+import UserPermission from './UserPermission';
 
 
 const drawerWidth = 240;
@@ -94,17 +95,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
   }),
 );
-const UserPermission = [
-  {
-    text:"Ayarlar"
-  },
-  {
-    text:"Drafts"
-  },
-  {
-    text:"Masalar"
-  }
-]
+
 
 export default function NavbarLayout({children}) {
   const theme = useTheme();
@@ -112,7 +103,7 @@ export default function NavbarLayout({children}) {
   const {cookies} = useAuth();
   const {logout} = useAuth();
   const [nav,setNav] = React.useState([]);
-
+  const isFocused = useIsFocusVisible();
 
   React.useEffect(()=>{
     let newNav = [];
@@ -126,9 +117,8 @@ export default function NavbarLayout({children}) {
         }
       });
     }
-    console.log(newNav);
     setNav(newNav);
-  });
+  },[isFocused]);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
