@@ -13,6 +13,7 @@ import User from './pages/User/User';
 import SettingsMain from './pages/Settings/SettingsMain';
 import AddTable from './pages/Settings/AddTable/AddTable';
 import AddUser from './pages/Settings/AddUser/AddUser';
+import Tables from './pages/Tables/Tables';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path='/ayarlar' element={<SettingsMain />} />
             <Route path='/ayarlar/masaEkleme' element={<AddTable />} />
             <Route path='/ayarlar/kullaniciEkleme' element={<AddUser />} />
+            <Route path='/masalar' element={<Tables />} />
           </Route>
         </Route>
         

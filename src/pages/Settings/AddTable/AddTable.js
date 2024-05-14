@@ -22,6 +22,7 @@ export default function AddTable(){
     const [tableName,setTableName] = useState("");
     const [tableData, setTableData] = useState([]); 
 
+
     useEffect(() => {
         getRequest("table/getAllTable", cookies.token,(responseData)=>{
             if(responseData.status===200){
@@ -36,6 +37,7 @@ export default function AddTable(){
         });
     }, [cookies.token]);
 
+    
 
 
     const notify = (mes) => toast.success(mes);
