@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import TableComponent from "./TableComponent";
 import { getRequest } from "../../services/apiService";
 import { useAuth } from "../../hooks/auth";
+import { Grid } from "@mui/material";
 
 
 export default function Tables(){
@@ -17,12 +18,12 @@ export default function Tables(){
     },[])
 
     return(
-        <div style={{ display: "flex", flexWrap: "wrap" }}> 
-            {tables.map(item=>{
-                return(
-                <TableComponent TableName={item.tableName}/>
-                )
-            })}
-        </div>
+        <Grid container spacing={2} justifyContent="flex-start">
+            {tables.map((item, index) => (
+                <Grid item key={index} xs={12} sm={6} md={4} lg={2.4}>
+                    <TableComponent TableName={item.tableName} />
+                </Grid>
+            ))}
+        </Grid>
     )
 }
