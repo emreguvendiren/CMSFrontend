@@ -41,8 +41,7 @@ export default function AddUser(){
     },[]);
 
     const handleRowClick = async (user) =>{
-        console.log(user)
-        console.log(options.filter(x=>x.value===user.role)[0])
+        
         setSelectedUser(user);
         setUserName(user.username);
         //setPassword(user.password);

@@ -6,14 +6,14 @@ export const getRequest = async (path,token, callback) => {
     //console.log(path);
    //console.log(token)
      fetch(SERVER_URL + path, {
-       headers: { Authorization: "Bearer "+token }
+       headers: { Authorization: "Bearer "+token, mode: 'no-cors' }, 
      })
        .then(response => response.json())
        .then(responseData => {
          //console.log(responseData);
          callback(responseData);
          //return(responseData.message);
- 
+        
    
        }) .catch(err => {
        })

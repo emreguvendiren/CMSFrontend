@@ -14,6 +14,9 @@ import SettingsMain from './pages/Settings/SettingsMain';
 import AddTable from './pages/Settings/AddTable/AddTable';
 import AddUser from './pages/Settings/AddUser/AddUser';
 import Tables from './pages/Tables/Tables';
+import { Category } from '@mui/icons-material';
+import AddCategory from './pages/Settings/AddCategory/AddCategory';
+import AddProduct from './pages/Settings/AddProduct/AddProduct';
 
 function App() {
   return (
@@ -33,7 +36,9 @@ function App() {
             <Route path='/ayarlar' element={<SettingsMain />} />
             <Route path='/ayarlar/masaEkleme' element={<AddTable />} />
             <Route path='/ayarlar/kullaniciEkleme' element={<AddUser />} />
-            <Route path='/masalar' element={<Tables />} />
+            <Route path='/ayarlar/masalar' element={<Tables />} />
+            <Route path='/ayarlar/kategoriEkleme' element={<AddCategory />} />
+            <Route path='/ayarlar/urunEkleme' element={<AddProduct />} />
           </Route>
         </Route>
         

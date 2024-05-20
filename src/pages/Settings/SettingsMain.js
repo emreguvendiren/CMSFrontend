@@ -21,7 +21,7 @@ export default function SettingsMain(){
             </Box>
             <Box sx={{marginLeft:3}}>
                 <Button variant="contained"
-                    onClick={()=>{handleNavigate("masaEkleme")}}
+                    onClick={()=>{handleNavigate("ayarlar/urunEkleme")}}
                 >
                   Ürün Ekleme Ekranı
                 </Button>
@@ -33,6 +33,14 @@ export default function SettingsMain(){
                     Kullanıcı Ekleme Ekranı
                 </Button>
             </Box>
+            <Box sx={{marginLeft:3}}>
+                <Button variant="contained"
+                    onClick={()=>{handleNavigate("ayarlar/kategoriEkleme")}}
+                >
+                    Kategori Ekleme Ekranı
+                </Button>
+            </Box>
+            
 
             
         </Box>
