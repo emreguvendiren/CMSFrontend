@@ -3,7 +3,7 @@ import { SERVER_URL } from "./parameters";
 export const getRequest = async (path,token, callback) => {
   
 
-    //console.log(path);
+    console.log(path);
    //console.log(token)
      fetch(SERVER_URL + path, {
        headers: { Authorization: "Bearer "+token, mode: 'no-cors' }, 

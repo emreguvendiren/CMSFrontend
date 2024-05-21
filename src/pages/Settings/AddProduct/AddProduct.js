@@ -71,7 +71,7 @@ export default function AddProduct(){
           reader.onloadend = () => {
             setImage(file);
             setImageUrl(reader.result);
-            console.log(reader.result)
+            
           };
           reader.readAsDataURL(file);
         }
@@ -84,17 +84,20 @@ export default function AddProduct(){
     const rejectNotify = (mes) => toast.error(mes);
 
     const handleButtonAddProduct = async()=>{
+        
         const data={
             name:productName,
             description:desc,
-            price:price
+            price:price,
+            imageUrl:imageUrl
         }
+        
         postRequestWCallback("product/createProduct?categoryId="+selectedCategory.value, cookies.token,data,(responseData)=>{
             if(responseData.status === 200){
                 notify(responseData.message);
                 getRequest("product/getAllProduct", cookies.token, (responseData) => {
                     if (responseData.status === 200) {
-                        setCategoryData(responseData.result);
+                        setProductData(responseData.result);
                         
                     } else {
                         rejectNotify(responseData.message);

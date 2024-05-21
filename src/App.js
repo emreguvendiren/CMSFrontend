@@ -36,7 +36,7 @@ function App() {
             <Route path='/ayarlar' element={<SettingsMain />} />
             <Route path='/ayarlar/masaEkleme' element={<AddTable />} />
             <Route path='/ayarlar/kullaniciEkleme' element={<AddUser />} />
-            <Route path='/ayarlar/masalar' element={<Tables />} />
+            <Route path='/masalar' element={<Tables />} />
             <Route path='/ayarlar/kategoriEkleme' element={<AddCategory />} />
             <Route path='/ayarlar/urunEkleme' element={<AddProduct />} />
           </Route>
