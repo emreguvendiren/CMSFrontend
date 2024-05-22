@@ -84,7 +84,7 @@ export default function AddProduct(){
     const rejectNotify = (mes) => toast.error(mes);
 
     const handleButtonAddProduct = async()=>{
-        
+        console.log(selectedCategory.value)
         const data={
             name:productName,
             description:desc,
